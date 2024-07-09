@@ -100,7 +100,7 @@ export default function useUpdateContractHook() {
     const contractData = contracts as GenericContractsDeclaration;
     const chainId = network.chain?.id || 43113;
 
-    const addresses = localStorage.getItem(`__tokenyze__.${network.chain?.id}.contractAddress`);
+    const addresses = localStorage.getItem(`__tokenyze__.${chainId}.contractAddress`);
 
     const addressMap = addresses ? JSON.parse(addresses) : null;
 
