@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Bars3Icon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import useUpdateContractHook from "~~/generated/useUpdateContractHook";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
@@ -30,18 +31,11 @@ export const Header = () => {
   const [tokenAddress, setTokenAddress] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
+  const { updateContractAddress } = useUpdateContractHook();
   async function handleLoadToken() {
     try {
-      const response = await fetch("http://localhost:4000/update-contracts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tokenAddress }),
-      });
-
-      const data = await response.json();
-      console.log(data.message);
+      await updateContractAddress(tokenAddress);
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
     }

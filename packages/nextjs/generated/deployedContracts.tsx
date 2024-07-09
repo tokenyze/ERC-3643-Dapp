@@ -1,11 +1,13 @@
+import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
+
 const contracts = {
-    80001: [
+    43113: [
         {
-            chainId: "80001",
-            name: "polygonMumbai",
+            chainId: "43113",
+            name: "avalancheFuji",
             contracts: {
                 Token: {
-                    address: "0x842f68aD861fDA309937bF4f020730040f61738a",
+                    address: "0xfbe6f5f402293e507b80b9beea4d34c29891b684",
                     abi: [
                         {
                             anonymous: false,
@@ -1092,7 +1094,7 @@ const contracts = {
                     ],
                 },
                 ModularCompliance: {
-                    address: "0xcE65a461573Bfd239beD130C83524eC457563000",
+                    address: "0x450901c5d7adEe07C8Da434Db4Fd2DCf2af8273b",
                     abi: [
                         {
                             anonymous: false,
@@ -1443,7 +1445,7 @@ const contracts = {
                     ],
                 },
                 IdentityRegistry: {
-                    address: "0xca77bF0C453b26e794F4871E2378F97312501B47",
+                    address: "0xF2C3B435ECf6640dC8Cb1D0Cb9b05B0d59b08534",
                     abi: [
                         {
                             anonymous: false,
@@ -1971,7 +1973,7 @@ const contracts = {
                     ],
                 },
                 ClaimTopicsRegistry: {
-                    address: "0x30b10D708a3051059a7fD698e57dCB0ba8F79C9d",
+                    address: "0x77B01feD89cbC96e052AD3B81Cc4B496948516A2",
                     abi: [
                         {
                             anonymous: false,
@@ -2113,7 +2115,7 @@ const contracts = {
                     ],
                 },
                 IdentityRegistryStorage: {
-                    address: "0xf9e219D6b68Db458D0e2998B2324A15a05B6F356",
+                    address: "0xa0C8F22b40F52bFf7cf71aFD15169fc047B0E513",
                     abi: [
                         {
                             anonymous: false,
@@ -2512,7 +2514,7 @@ const contracts = {
                     ],
                 },
                 TrustedIssuersRegistry: {
-                    address: "0x93e49b2BC0CA62cC6b77e26CC8f3Ce793C2B5Dd4",
+                    address: "0xcdCAd8979839Ea7cB489949B1D0861f24848Efd3",
                     abi: [
                         {
                             anonymous: false,
@@ -2783,7 +2785,7 @@ const contracts = {
                     ],
                 },
                 TREXFactory: {
-                    address: "0x6840D02179b9bcDc31F0B4AE098E1330fEE5B029",
+                    address: "0x2b1af48a67C75C4415aC0457D40056A619E31eb2",
                     abi: [
                         {
                             anonymous: false,
@@ -3093,4 +3095,17 @@ const contracts = {
     ],
 } as const;
 
-export default contracts;
+const contractData = contracts as GenericContractsDeclaration;
+const chainId = 43113;
+const addresses = typeof window !== 'undefined' && window.localStorage.getItem(`__tokenyze__.${chainId}.contractAddress`);
+const addressMap = addresses ? JSON.parse(addresses) : null;
+
+if (contractData?.[chainId]?.[0] && addressMap) {
+    const contractObj = contractData?.[chainId]?.[0];
+
+    for (const [contractName, newAddress] of Object.entries<string>(addressMap)) {
+        contractObj.contracts[contractName].address = newAddress;
+    }
+}
+
+export default contractData;
