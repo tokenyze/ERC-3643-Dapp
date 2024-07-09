@@ -91,9 +91,9 @@ export default function useUpdateContractHook() {
       ClaimTopicsRegistry: topicsRegistryAddress,
     };
 
-    console.log(network.chain?.id);
+    const chainId = network.chain?.id || 43113;
 
-    localStorage.setItem(`__tokenyze__.${network.chain?.id}.contractAddress`, JSON.stringify(addressMap));
+    localStorage.setItem(`__tokenyze__.${chainId}.contractAddress`, JSON.stringify(addressMap));
   }
 
   function getContract() {
@@ -104,7 +104,7 @@ export default function useUpdateContractHook() {
 
     const addressMap = addresses ? JSON.parse(addresses) : null;
 
-    if (!contractData?.[chainId]?.[0] && addressMap) {
+    if (contractData?.[chainId]?.[0] && addressMap) {
       const contractObj = contractData?.[chainId]?.[0];
 
       for (const [contractName, newAddress] of Object.entries<string>(addressMap)) {
